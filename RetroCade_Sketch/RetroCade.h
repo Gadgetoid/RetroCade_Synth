@@ -17,10 +17,10 @@
 #include "Arduino.h"
 #include "LiquidCrystal.h"
 #include <SD.h>
+#include "SID.h"
 #include "SmallFS.h"
 #include "modplayer.h"
 #include "ymplayer.h"
-#include "SID.h"
 #include "YM2149.h"
 
 #define AUDIO_J1_L WING_B_1

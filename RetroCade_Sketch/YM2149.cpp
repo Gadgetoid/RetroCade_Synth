@@ -56,18 +56,23 @@ void YMVoice::setBase(int freqAddress, int volumeAddress)
   YM_ADDR_LEVEL = volumeAddress; 
 }
 
+/* 
+  Set current frequency based on note lookup table
+*/
 void YMVoice::setNote(int note, boolean active)
 {
   //setTone(active);
-  YM2149::writeData(YM_ADDR_FREQ, YM2149::MIDI2freq[note]);
-  YM2149::writeData(YM_ADDR_FREQ+1, (YM2149::MIDI2freq[note] >> 8));
-  currentFreq = YM2149::MIDI2freq[note];
+  setFreq(YM2149::MIDI2freq[note]); // PH 20130507 Not sure if this is more efficient, freq for note is looked up only once?
+  //YM2149::writeData(YM_ADDR_FREQ, YM2149::MIDI2freq[note]);  // PH 20130507 duplicate of setFreq
+  //YM2149::writeData(YM_ADDR_FREQ+1, (YM2149::MIDI2freq[note] >> 8));  // PH 20130507 duplicate of setFreq
+  //currentFreq = YM2149::MIDI2freq[note];  // PH 20130507 duplicate of setFreq
 }
 
 void YMVoice::setFreq(int freq)
 {
   YM2149::writeData(YM_ADDR_FREQ, freq);
-  YM2149::writeData(YM_ADDR_FREQ+1, (freq >> 8));  
+  YM2149::writeData(YM_ADDR_FREQ+1, (freq >> 8)); 
+  currentFreq = freq; // PH 20130507 Surely should be reported when a frequency is custom set?
 }
 
 int YMVoice::getCurrentFreq()

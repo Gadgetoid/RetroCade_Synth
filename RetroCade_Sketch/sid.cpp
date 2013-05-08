@@ -29,8 +29,7 @@ const int SID::MIDI2freq[] = {//MIDI note number
   0//off
 };
 
-#define SIDINSTRUMENTS 9
-int sidInstrument[SIDINSTRUMENTS][9]=
+/*int sidInstrument[SIDINSTRUMENTS][9]=
         { {0,0,15,0,0,0,0,1,0},                                              
           {0,5,5,0,1,0,0,0,0},                                                                                           
           {12,0,12,0,0,0,1,0,0},
@@ -39,13 +38,13 @@ int sidInstrument[SIDINSTRUMENTS][9]=
           {0,9,9,0,0,1,0,0,2048},
           {8,9,4,1,0,1,0,0,512},
           {0,9,0,0,0,0,0,1,0},
-          {9,4,4,0,0,0,0,1,0} };
+          {9,4,4,0,0,0,0,1,0} };*/
           
 //byte sidInstrumentName[SIDINSTRUMENTS][20]=        //TODO: Goofy way to do this, change to struct or function when strcpy works.
 //        { "Calliope",                                              
 //          "Accordian",                                                                                           
 //          "Harpsicord" };  
-
+ 
 
 SID::SID(){  
   V1.setBase(SID_ADDR_BASE_V1);
@@ -64,6 +63,16 @@ void SID::writeData(unsigned char address, unsigned char data)
 SIDVoice::SIDVoice()
 {
 
+  SIDVoice::sidInstrument[0] = (SIDInstrument) {"Calliope",0,0,15,0,0,0,0,1,0};
+  SIDVoice::sidInstrument[1] = (SIDInstrument) {"Drum",0,5,5,0,1,0,0,0,0};
+  SIDVoice::sidInstrument[2] = (SIDInstrument) {"Accordian",12,0,12,0,0,0,1,0,0};
+  SIDVoice::sidInstrument[3] = (SIDInstrument) {"Guitar",0,9,2,1,0,0,1,0,0};
+  SIDVoice::sidInstrument[4] = (SIDInstrument) {"Harpsicord",0,9,0,0,0,1,0,0,512};
+  SIDVoice::sidInstrument[5] = (SIDInstrument) {"Organ",0,9,9,0,0,1,0,0,2048};
+  SIDVoice::sidInstrument[6] = (SIDInstrument) {"Trumpet",8,9,4,1,0,1,0,0,512};
+  SIDVoice::sidInstrument[7] = (SIDInstrument) {"Xylophone",0,9,0,0,0,0,0,1,0};
+  SIDVoice::sidInstrument[8] = (SIDInstrument) {"Flute",9,4,4,0,0,0,0,1,0};
+  
 }
 
 SIDVoice::SIDVoice(int address)    //TODO: Remove this or make it work right.
@@ -303,22 +312,30 @@ void SIDVoice::setInstrument(const char* name,byte attack, byte decay, byte sust
   SIDREG(SID_ADDR_CONTROLREG) = *(char*)&SID_REG_CONTROLREG;  
 }
 
+int SIDVoice::getCurrentInstrument()
+{
+  return currentInstrument;
+}
+
 void SIDVoice::loadInstrument(byte instrument)
 {
+  currentInstrument = instrument;
 //  Serial.println("In setinstrument");
 //  Serial.println(name);
 //  strcpy(instrumentName, sidInstrumentName);
 //  Serial.println(instrumentName);
-  SID_REG_ATTACK_DECAY.ATTACK = sidInstrument[instrument][0];
-  SID_REG_ATTACK_DECAY.DECAY = sidInstrument[instrument][1];
-  SID_REG_SUSTAIN_RELEASE.SUSTAIN = sidInstrument[instrument][2];
-  SID_REG_SUSTAIN_RELEASE.RELEASE = sidInstrument[instrument][3];
-  SID_REG_CONTROLREG.NOISE_WAVE = sidInstrument[instrument][4];
-  SID_REG_CONTROLREG.SQUARE_WAVE = sidInstrument[instrument][5];
-  SID_REG_CONTROLREG.SAWTOOTH_WAVE = sidInstrument[instrument][6];
-  SID_REG_CONTROLREG.TRIANGLE_WAVE = sidInstrument[instrument][7];
-  setPWLo(sidInstrument[instrument][8]);
-  setPWHi((sidInstrument[instrument][8]) >> 8);  
+  SID_REG_ATTACK_DECAY.ATTACK = sidInstrument[instrument].envAttack; //[0];
+  SID_REG_ATTACK_DECAY.DECAY = sidInstrument[instrument].envDecay; //[1];
+  SID_REG_SUSTAIN_RELEASE.SUSTAIN = sidInstrument[instrument].envSustain; //[2];
+  SID_REG_SUSTAIN_RELEASE.RELEASE = sidInstrument[instrument].envRelease; //[3];
+  SID_REG_CONTROLREG.NOISE_WAVE = sidInstrument[instrument].noiseWave; //[4];
+  SID_REG_CONTROLREG.SQUARE_WAVE = sidInstrument[instrument].squareWave; //[5];
+  SID_REG_CONTROLREG.SAWTOOTH_WAVE = sidInstrument[instrument].sawtoothWave; //[6];
+  SID_REG_CONTROLREG.TRIANGLE_WAVE = sidInstrument[instrument].triangleWave; //[7];
+  //setPWLo(sidInstrument[instrument][8]);
+  //setPWHi((sidInstrument[instrument][8]) >> 8);  
+  setPWLo(sidInstrument[instrument].pwm);
+  setPWHi((sidInstrument[instrument].pwm) >> 8);  
 
   SIDREG(SID_ADDR_ATTACK_DECAY) = *(char*)&SID_REG_ATTACK_DECAY;        //TODO: Make this a static function to save space.
   SIDREG(SID_ADDR_SUSTAIN_RELEASE) = *(char*)&SID_REG_SUSTAIN_RELEASE; 
@@ -346,5 +363,6 @@ void SID::reset(){
   V2.reset();
   V3.reset();  
 }
+
 
 

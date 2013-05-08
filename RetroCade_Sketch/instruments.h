@@ -1,3 +1,24 @@
+
+#ifndef LIB_INS_H_
+#define LIB_INS_H_
+
+#define SIDINSTRUMENTS 16 //  max number of slots for SID instruments
+
+// Struct to store sid instrument details
+struct SIDInstrument
+{
+    const char* name;
+    int envAttack;
+    int envDecay;
+    int envSustain;
+    int envRelease;
+    int noiseWave;
+    int squareWave;
+    int sawtoothWave;
+    int triangleWave;
+    int pwm;
+};
+
    //Calliope
 //  SID_REG_V1_ATTACK_DECAY.ATTACK = 0;
 //  SID_REG_V1_ATTACK_DECAY.DECAY = 0; 
@@ -141,4 +162,4 @@
 //  SID_REG_V1_ATTACK_DECAY.DECAY = 0x00; 
 //  SID_REG_V1_SUSTAIN_RELEASE.SUSTAIN = 0x00;
 //  SID_REG_V1_SUSTAIN_RELEASE.RELEASE = 0x00;
-  
+#endif

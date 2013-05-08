@@ -15,6 +15,7 @@
 #include <zpuino-types.h>
 #include <zpuino.h>
 #include "Arduino.h"
+#include "instruments.h"
 
 #define SID_ADDR_BASE_V1               0x00
 #define SID_ADDR_BASE_V2               0x07
@@ -30,11 +31,14 @@
 #define SIDBASE IO_SLOT(14)
 #define SIDREG(x) REGISTER(SIDBASE,x)
 
+
+
 class SIDVoice
 { 
   public:
     SIDVoice();
     SIDVoice(int address);
+    SIDInstrument sidInstrument[SIDINSTRUMENTS];
     void setBase(int address);   
     void setNote(int note, boolean active);
     void setFreq(int freq);
@@ -58,9 +62,11 @@ class SIDVoice
     void handleCC(byte number, byte value);
     void reset(); 
     int getCurrentFreq();
+    int getCurrentInstrument();
   private:
     void writeData(unsigned char address, unsigned char data);
     void ringMod(byte baseOffset, byte valueOffset, byte value);
+    int currentInstrument;
     int baseAddress;
     int currentFreq;
     int SID_ADDR_FREQ_LOW;
