@@ -63,15 +63,16 @@ void SID::writeData(unsigned char address, unsigned char data)
 SIDVoice::SIDVoice()
 {
 
-  SIDVoice::sidInstrument[0] = (SIDInstrument) {"Calliope",0,0,15,0,0,0,0,1,0};
-  SIDVoice::sidInstrument[1] = (SIDInstrument) {"Drum",0,5,5,0,1,0,0,0,0};
-  SIDVoice::sidInstrument[2] = (SIDInstrument) {"Accordian",12,0,12,0,0,0,1,0,0};
-  SIDVoice::sidInstrument[3] = (SIDInstrument) {"Guitar",0,9,2,1,0,0,1,0,0};
-  SIDVoice::sidInstrument[4] = (SIDInstrument) {"Harpsicord",0,9,0,0,0,1,0,0,512};
-  SIDVoice::sidInstrument[5] = (SIDInstrument) {"Organ",0,9,9,0,0,1,0,0,2048};
-  SIDVoice::sidInstrument[6] = (SIDInstrument) {"Trumpet",8,9,4,1,0,1,0,0,512};
-  SIDVoice::sidInstrument[7] = (SIDInstrument) {"Xylophone",0,9,0,0,0,0,0,1,0};
-  SIDVoice::sidInstrument[8] = (SIDInstrument) {"Flute",9,4,4,0,0,0,0,1,0};
+  SIDVoice::sidInstrument[0] = (SIDInstrument) {"aCalliope",0,0,15,0,0,0,0,1,0};
+  SIDVoice::sidInstrument[1] = (SIDInstrument) {"bDrum",0,5,5,0,1,0,0,0,0};
+  SIDVoice::sidInstrument[2] = (SIDInstrument) {"cAccordian",12,0,12,0,0,0,1,0,0};
+  SIDVoice::sidInstrument[3] = (SIDInstrument) {"dGuitar",0,9,2,1,0,0,1,0,0};
+  SIDVoice::sidInstrument[4] = (SIDInstrument) {"eHarpsicord",0,9,0,0,0,1,0,0,512};
+  SIDVoice::sidInstrument[5] = (SIDInstrument) {"fOrgan",0,9,9,0,0,1,0,0,2048};
+  SIDVoice::sidInstrument[6] = (SIDInstrument) {"gTrumpet",8,9,4,1,0,1,0,0,512};
+  SIDVoice::sidInstrument[7] = (SIDInstrument) {"hXylophone",0,9,0,0,0,0,0,1,0};
+  SIDVoice::sidInstrument[8] = (SIDInstrument) {"iFlute",9,4,4,0,0,0,0,1,0};
+  SIDVoice::sidInstrument[9] = (SIDInstrument) {"Poot",9,9,4,0,0,0,0,1,512};
   
 }
 

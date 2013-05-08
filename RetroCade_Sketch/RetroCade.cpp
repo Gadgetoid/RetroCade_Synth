@@ -30,8 +30,8 @@
 char smallfsModTrack[] = "track1.mod";
 //char smallfsYmTrack[] = "track1.mod";
 
-#define SIDINSTRUMENTS 9          
-char sidInstrumentName[SIDINSTRUMENTS][20]=        //TODO: Goofy way to do this, change to struct or function when strcpy works.
+#define SIDINSTRUMENTS 16          
+/*char sidInstrumentName[SIDINSTRUMENTS][20]=        //TODO: Goofy way to do this, change to struct or function when strcpy works.
         { "Calliope",                                              
           "Drum",
           "Accordian", 
@@ -40,7 +40,7 @@ char sidInstrumentName[SIDINSTRUMENTS][20]=        //TODO: Goofy way to do this,
           "Organ", 
           "Trumpet", 
           "Xylophone",           
-          "Flute" };  
+          "Flute" };  */
  
 LiquidCrystal lcd(WING_B_10, WING_B_9, WING_B_8, WING_B_7, WING_B_6, WING_B_5, WING_B_4);
 
@@ -327,7 +327,11 @@ void RETROCADE::instrumentJoystick()
     }
   }            
   lcd.setCursor(0,1);
-  lcd.print(sidInstrumentName[activeInstrument]);     
+  //lcd.print(sidInstrumentName[activeInstrument]);
+ 
+ int instrumentIdx = sid.V1.getCurrentInstrument();
+  
+  lcd.print(sid.V1.sidInstrument[instrumentIdx].name);  
 }
 
 void RETROCADE::smallfsModFileJoystick(byte type) 
