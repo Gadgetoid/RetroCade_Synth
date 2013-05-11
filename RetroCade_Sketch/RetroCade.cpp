@@ -18,14 +18,15 @@
 
 //Defines for lcdMode
 #define WELCOME 0
-#define CHANNEL 1
-#define INSTRUMENT 2
-#define MODFILE 3
-#define SMALLFSMODFILE 4
-#define YMFILE 5
-#define SMALLFSYMFILE 6
-#define ABOUT 7
-#define LCDMODEMAX 8
+#define PERFORMANCE 1
+#define CHANNEL 2
+#define INSTRUMENT 3
+#define MODFILE 4
+#define SMALLFSMODFILE 5
+#define YMFILE 6
+#define SMALLFSYMFILE 7
+#define ABOUT 8
+#define LCDMODEMAX 9
 
 char smallfsModTrack[] = "track1.mod";
 //char smallfsYmTrack[] = "track1.mod";

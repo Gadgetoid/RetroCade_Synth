@@ -1,21 +1,41 @@
-/*#include <inttypes.h> 
+#include <inttypes.h> 
 #include <zpuino-types.h>
 #include <zpuino.h>
 #include "Arduino.h"
 
-typedef struct  {
-  boolean splitEnabled;
-  byte splitStart;
-  byte splitEnd;
-  byte splitChannel;
-  byte normalChannel; 
-} PERFORMANCE_PATCH;
+#define PERFORMANCE_COUNT 8
 
-class PERFORMANCE
+struct PerformancePatch {
+  char* name;
+  
+  int splitEnabled;
+  int splitStart; // 0 - 127
+  int splitEnd; // 9 - 127
+  
+  int splitChannel;
+  int splitOctave;
+  int splitTranspose;
+  
+  int normalChannel;
+  int normalOctave;
+  int normalTranspose;
+  
+  int octave;
+  int transpose;
+  int sidInstrument;
+};
+
+class Performance
 {
   public:
-    void setupPerformance();
-    void handleJoystick();
+    Performance();
+    int currentPerformance;
+    int currentSetting;
+    char* getPerformanceName();
+    void next();
+    void previous();
+    const char* settingNext();
+    const char* settingPrevious();
   private:
-    PERFORMANCE_PATCH patch[8];
-}*/
+    PerformancePatch performance[8];
+};

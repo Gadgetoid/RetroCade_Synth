@@ -7,7 +7,7 @@
 // Struct to store sid instrument details
 struct SIDInstrument
 {
-    const char* name;
+    char* name;
     int envAttack;
     int envDecay;
     int envSustain;
