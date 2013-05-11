@@ -22,6 +22,7 @@
 #include "modplayer.h"
 #include "ymplayer.h"
 #include "YM2149.h"
+#include "Performance.h"
 
 #define AUDIO_J1_L WING_B_1
 #define AUDIO_J1_R WING_B_0
@@ -72,11 +73,14 @@ class RETROCADE
    YMPLAYER ymplayer;
    MODPLAYER modplayer; 
    YM2149 ym2149;
-   SID sid;   
+   SID sid; 
+   Performance performance;  
    void setupMegaWing(); 
    void handleJoystick();
    void setTimeout();
    byte getActiveChannel();
+   byte getActiveChannel(byte pitch);
+   byte applyPitchTransposeOctave(byte pitch);
    void printDirectory(File dir, int numTabs);
    void printFile(const char* ext);
    boolean sdFsActive();
@@ -105,6 +109,9 @@ class RETROCADE
    File curYMFile;
    File curMODFile;
    char * fileName;
+   int SIDVoiceSetting;
+   int SIDVoiceEditMode;
+   int SIDVoiceSettingEditMode;
 };
 
 #endif // LIB_RetroCade_H_

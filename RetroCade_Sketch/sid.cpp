@@ -62,17 +62,27 @@ void SID::writeData(unsigned char address, unsigned char data)
 
 SIDVoice::SIDVoice()
 {
+  /*
+    SID_REG_ATTACK_DECAY.ATTACK = sidInstrument[instrument].envAttack; //[0];
+  SID_REG_ATTACK_DECAY.DECAY = sidInstrument[instrument].envDecay; //[1];
+  SID_REG_SUSTAIN_RELEASE.SUSTAIN = sidInstrument[instrument].envSustain; //[2];
+  SID_REG_SUSTAIN_RELEASE.RELEASE = sidInstrument[instrument].envRelease; //[3];
+  SID_REG_CONTROLREG.NOISE_WAVE = sidInstrument[instrument].noiseWave; //[4];
+  SID_REG_CONTROLREG.SQUARE_WAVE = sidInstrument[instrument].squareWave; //[5];
+  SID_REG_CONTROLREG.SAWTOOTH_WAVE = sidInstrument[instrument].sawtoothWave; //[6];
+  SID_REG_CONTROLREG.TRIANGLE_WAVE = sidInstrument[instrument].triangleWave; //[7];
+  */
 
-  SIDVoice::sidInstrument[0] = (SIDInstrument) {"aCalliope",0,0,15,0,0,0,0,1,0};
-  SIDVoice::sidInstrument[1] = (SIDInstrument) {"bDrum",0,5,5,0,1,0,0,0,0};
-  SIDVoice::sidInstrument[2] = (SIDInstrument) {"cAccordian",12,0,12,0,0,0,1,0,0};
-  SIDVoice::sidInstrument[3] = (SIDInstrument) {"dGuitar",0,9,2,1,0,0,1,0,0};
-  SIDVoice::sidInstrument[4] = (SIDInstrument) {"eHarpsicord",0,9,0,0,0,1,0,0,512};
-  SIDVoice::sidInstrument[5] = (SIDInstrument) {"fOrgan",0,9,9,0,0,1,0,0,2048};
-  SIDVoice::sidInstrument[6] = (SIDInstrument) {"gTrumpet",8,9,4,1,0,1,0,0,512};
-  SIDVoice::sidInstrument[7] = (SIDInstrument) {"hXylophone",0,9,0,0,0,0,0,1,0};
-  SIDVoice::sidInstrument[8] = (SIDInstrument) {"iFlute",9,4,4,0,0,0,0,1,0};
-  SIDVoice::sidInstrument[9] = (SIDInstrument) {"Poot",9,9,4,0,0,0,0,1,512};
+  SIDVoice::sidInstrument[0] = (SIDInstrument) {"Calliope",0,0,15,0,0,0,0,1,0};
+  SIDVoice::sidInstrument[1] = (SIDInstrument) {"Drum",0,5,5,0,1,0,0,0,0};
+  SIDVoice::sidInstrument[2] = (SIDInstrument) {"Accordian",12,0,12,0,0,0,1,0,0};
+  SIDVoice::sidInstrument[3] = (SIDInstrument) {"Guitar",0,9,2,1,0,0,1,0,0};
+  SIDVoice::sidInstrument[4] = (SIDInstrument) {"Harpsicord",0,9,0,0,0,1,0,0,512};
+  SIDVoice::sidInstrument[5] = (SIDInstrument) {"Organ",0,9,9,0,0,1,0,0,2048};
+  SIDVoice::sidInstrument[6] = (SIDInstrument) {"Trumpet",8,9,4,1,0,1,0,0,512};
+  SIDVoice::sidInstrument[7] = (SIDInstrument) {"Xylophone",0,9,0,0,0,0,0,1,0};
+  SIDVoice::sidInstrument[8] = (SIDInstrument) {"Flute",9,4,4,0,0,0,0,1,0};
+  SIDVoice::sidInstrument[9] = (SIDInstrument) {"Poot",0,20,10,4,0,1,1,1,2048};
   
 }
 
@@ -317,6 +327,12 @@ int SIDVoice::getCurrentInstrument()
 {
   return currentInstrument;
 }
+int SIDVoice::reloadCurrentInstrument()
+{
+  loadInstrument(currentInstrument);
+  return currentInstrument;
+}
+
 
 void SIDVoice::loadInstrument(byte instrument)
 {

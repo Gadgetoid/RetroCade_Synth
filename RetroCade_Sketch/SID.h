@@ -63,6 +63,7 @@ class SIDVoice
     void reset(); 
     int getCurrentFreq();
     int getCurrentInstrument();
+    int reloadCurrentInstrument();
   private:
     void writeData(unsigned char address, unsigned char data);
     void ringMod(byte baseOffset, byte valueOffset, byte value);

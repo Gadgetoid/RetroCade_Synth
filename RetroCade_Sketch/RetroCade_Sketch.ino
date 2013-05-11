@@ -91,7 +91,7 @@ byte lastpitch[8];
 File root;
 
 #undef DO_CHECKS
-//#define DEBUG
+#define DEBUG
 
 //Instantiate the objects we will be using.
 RETROCADE retrocade;
@@ -111,10 +111,13 @@ void setup(){
   retrocade.ym2149.V3.setVolume(11);   
   retrocade.sid.setVolume(15);
 
-  //Select an instrument for each SID Voice.
-  retrocade.sid.V1.setInstrument("Calliope",0,0,15,0,0,0,0,1,0); //Calliope
-  retrocade.sid.V2.setInstrument("Accordian",12,0,12,0,0,0,1,0,0); //Accordian
-  retrocade.sid.V3.setInstrument("Harpsicord",0,9,0,0,0,1,0,0,512); //Harpsicord
+  //Select an instrument for each SID Voice. 
+ retrocade.sid.V1.loadInstrument(9); //Calliope
+  retrocade.sid.V2.loadInstrument(9); //Accordian
+  retrocade.sid.V3.loadInstrument(9); //Harpsicord
+  //retrocade.sid.V1.setInstrument("Calliope",0,0,15,0,0,0,0,1,0); //Calliope
+  //retrocade.sid.V2.setInstrument("Accordian",12,0,12,0,0,0,1,0,0); //Accordian
+  //retrocade.sid.V3.setInstrument("Harpsicord",0,9,0,0,0,1,0,0,512); //Harpsicord
    
   // Initiate MIDI communications, listen to all channels
   MIDI.begin(MIDI_CHANNEL_OMNI);
@@ -233,7 +236,7 @@ void HandlePitchBend(byte channel, int bend) {
   byte activeChannel = retrocade.getActiveChannel();
   if ( activeChannel != 0 )
     channel = activeChannel;
-  int ymBend = bend/10;    
+  int ymBend = bend/10/9;    
   switch (channel){
     case 1:
       if (retrocade.sid.V1.getCurrentFreq() + bend > 388)
@@ -273,10 +276,21 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
     Serial.println(channel);
   #endif     
   if (velocity==0) { HandleNoteOff(channel, pitch, velocity); return; }
-  lastpitch[channel-1]=pitch;
-  byte activeChannel = retrocade.getActiveChannel();
+
+  
+  byte activeChannel = retrocade.getActiveChannel(pitch);
+  pitch = retrocade.applyPitchTransposeOctave(pitch);
+  
+  #ifdef DEBUG
+    Serial.print("Note Trans: ");
+    Serial.println(pitch);
+    Serial.print("Channel Trans: ");
+    Serial.println(activeChannel);
+  #endif   
+  
   if ( activeChannel != 0 )
-    channel = activeChannel;
+    channel = activeChannel; 
+    lastpitch[channel-1]=pitch;
   switch (channel){
     case 1:
       retrocade.sid.V1.setNote(pitch, 1);
@@ -316,8 +330,20 @@ void HandleNoteOff(byte channel, byte pitch, byte velocity) {
   #ifdef DEBUG
     Serial.println("In NoteOff");
     Serial.println(pitch);
+    Serial.println("Channel");
+    Serial.println(channel);
   #endif   
-  byte activeChannel = retrocade.getActiveChannel();
+
+  byte activeChannel = retrocade.getActiveChannel(pitch);
+  pitch = retrocade.applyPitchTransposeOctave(pitch);
+  
+  #ifdef DEBUG
+    Serial.println("In NoteOff t");
+    Serial.println(pitch);
+    Serial.println("Channel t");
+    Serial.println(activeChannel);
+  #endif  
+  
   if ( activeChannel != 0 )
     channel = activeChannel;  
   if (lastpitch[channel-1]!=pitch) { return; }
@@ -356,7 +382,7 @@ void loop(){
   if (retrocade.modplayer.getPlaying() == 1)
     retrocade.modplayer.audiofill();
   else
-    retrocade.spaceInvadersLCD();          //Don't move the space invader when a mod file is playing
+    //retrocade.spaceInvadersLCD();          //Don't move the space invader when a mod file is playing
   if (retrocade.ymplayer.getPlaying() == 1)
     retrocade.ymplayer.audiofill(); 
   retrocade.handleJoystick();     

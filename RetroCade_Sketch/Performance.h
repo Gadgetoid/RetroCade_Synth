@@ -29,13 +29,31 @@ class Performance
 {
   public:
     Performance();
+    
+    void joystickUp();
+    void joystickDown();
+    void joystickSelect();
+    
+    char* getSetting();
+    int getSettingValue();
+    char* getHeading();
+    
+    char* getPerformanceName();
+    
+    byte getActiveChannel(byte pitch);
+    byte applyPitchTransposeOctave(byte pitch);
+  private:
     int currentPerformance;
     int currentSetting;
-    char* getPerformanceName();
-    void next();
-    void previous();
-    const char* settingNext();
-    const char* settingPrevious();
-  private:
+    int editMode;
+    
+    void toggleEditMode();
+    
+    void patchNext();
+    void patchPrevious();
+    
+    void settingNext();
+    void settingPrevious();
+    
     PerformancePatch performance[8];
 };
